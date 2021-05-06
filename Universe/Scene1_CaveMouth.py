@@ -1,4 +1,5 @@
 from Universe.Scene import Scene
+from Universe.Scene2_CaveTunnel import Scene2_CaveTunnel
 import textwrap
 
 class Scene1_CaveMouth(Scene):
@@ -15,7 +16,7 @@ class Scene1_CaveMouth(Scene):
                 self.talk_outcomes()
             # If they have straw, they can throw it into the bowls.
             elif "straw" in self.action and "straw" in self.player.inventory:
-                if "bowl" in self.action:
+                if "bowl" in self.action or "statue" in self.action:
                     print(textwrap.dedent("""
                                         You throw straw with all your might into
                                         both bowls atop the statue heads."""))
@@ -34,7 +35,8 @@ class Scene1_CaveMouth(Scene):
                                         tremours as the stone doors shift slowly open."""))
                     self.environment.append("door open")
                     # End value return is here. The name of the next scene gets fed back to the engine.
-                    return "scene2"
+                    next_scene = Scene2_CaveTunnel(self.player, self.plot_points)
+                    next_scene.enter()
                 else:
                     print("\nWaste of a good fireball.")
 
@@ -69,15 +71,9 @@ class Scene1_CaveMouth(Scene):
             elif "door open" in self.environment or "straw" in self.player.inventory:
                 print("\nYou already took the straw.")
         elif "door" in self.action:
-            if "door open" in self.environment:
-                print(textwrap.dedent("""
-                                    You pass through the looming threshold into the murk of
-                                    the cave."""))
-                return "scene2"
-            else:
-                print(textwrap.dedent("""
-                                    Not the strongest men you've known would be able to budge it,
-                                    and you're a munchkin compared to them."""))
+            print(textwrap.dedent("""
+                                Not the strongest men you've known would be able to budge it,
+                                and you're a munchkin compared to them."""))
         else:
             print("\nWon't work in this universe.")
 
@@ -137,7 +133,7 @@ class Scene1_CaveMouth(Scene):
         # Talking to metacy can get you the fireball
         # which is part of the solution.
         if "fairy" in self.action or "metacy" in self.action:
-            self.metacy_mouth(Scene.environment)
+            self.metacy_mouth()
         # These options are not the solution.
         elif "cavern" in self.action:
             print(textwrap.dedent("""You know you're in your social element if you can
@@ -182,7 +178,7 @@ class Scene1_CaveMouth(Scene):
 
         return
 
-    def metacy_mouth(self, environment):
+    def metacy_mouth(self):
         """Runs when talking to Metacy at the cave mouth.
         Mostly for interest, though you need the fireball grant
         from here to advance."""
@@ -304,4 +300,4 @@ class Scene1_CaveMouth(Scene):
             else:
                 print("\nPlease enter only a valid number.")
 
-        return self.enter()
+        return

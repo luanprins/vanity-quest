@@ -1,4 +1,5 @@
 from Universe.Scene import Scene
+from Universe.Scene3_InsideCave import Scene3_InsideCave
 import textwrap
 
 class Scene2_CaveTunnel(Scene):
@@ -33,21 +34,22 @@ class Scene2_CaveTunnel(Scene):
         while True:
             super().enter()
             if self.action == "1":
-                self.choice1(Scene.environment)
+                self.choice1()
                 break
             elif self.action == "2":
-                self.choice2(Scene.environment)
+                self.choice2()
                 break
             else:
                 print("Not a valid choice.")
                 continue
         
-        return "scene3"
+        next_scene = Scene3_InsideCave(self.player, self.plot_points)
+        next_scene.enter()
 
 # This choice will get your family ring stolen and save
 # the life of a renowned healer. You'll get the
 # first shard of the sword with which to kill Lullazilla.
-    def choice1(self, environment):
+    def choice1(self):
 
         print(textwrap.dedent("""
                             You muscle through the incrementing discomfort.
@@ -136,7 +138,7 @@ class Scene2_CaveTunnel(Scene):
     # This choice will spare your family ring and cause the healer to pass
     # away. You'll also get the first shard of the sword with
     # which to kill Lullazilla.
-    def choice2(self, environment):
+    def choice2(self):
 
 
         print(textwrap.dedent("""
