@@ -1,4 +1,5 @@
 from Universe.Scene import Scene
+from Universe.Scene4_CrystalRoom import Scene4_CrystalRoom
 import textwrap
 
 class Scene3_InsideCave(Scene):
@@ -7,7 +8,6 @@ class Scene3_InsideCave(Scene):
 
         while True:
             super().enter()
-            self.action = input("\n> ")
 
             if "talk" in self.action and ("fairy" in self.action or "metacy" in self.action):
                 self.scene3_metacy()
@@ -94,7 +94,8 @@ class Scene3_InsideCave(Scene):
 
                                 You pass through a tunnel to the next room."""))
             self.player.inventory.remove("grapple rope")
-            return "scene4"
+            next_scene = Scene4_CrystalRoom(self.player, self.plot_points)
+            next_scene.enter()
 
     def hook_outcomes(self):
         if "rope" in self.action:
@@ -108,28 +109,28 @@ class Scene3_InsideCave(Scene):
 
     def look_outcomes(self):
         if self.action == "look":
-                    print(textwrap.dedent("""
-                                        INSIDE THE CAVE
+            print(textwrap.dedent("""
+                                INSIDE THE CAVE
 
-                                        The air is rippling with the heat emanating from the
-                                        lava river.
+                                The air is rippling with the heat emanating from the
+                                lava river.
 
-                                        There are stalagmites on the other side of the river.
-                                        That platform is a good deal lower than here. There are
-                                        no stalagmites among you but stalactites dangle precariously
-                                        from the ceiling.
+                                There are stalagmites on the other side of the river.
+                                That platform is a good deal lower than here. There are
+                                no stalagmites among you but stalactites dangle precariously
+                                from the ceiling.
 
-                                        Some rope lies rolled up a few paces away from you.
-                                        Next to it is a large steel spike.
+                                Some rope lies rolled up a few paces away from you.
+                                Next to it is a large steel spike.
 
-                                        One end of the river is so infernal that
-                                        bouts of lava shoot into the air and form a small pool
-                                        on your side of the hellish stream.
+                                One end of the river is so infernal that
+                                bouts of lava shoot into the air and form a small pool
+                                on your side of the hellish stream.
 
-                                        A strange blue orb protrudes from the ground in the centre
-                                        of this clearing.
-                                        """))
-                    self.player.mind.append("orb")
+                                A strange blue orb protrudes from the ground in the centre
+                                of this clearing.
+                                """))
+            self.player.mind.append("orb")
         # Rest of the looks serve no functional purpose for this scene.
         elif "river" in self.action:
             print("\nYou pray to the gods you don't end up in there.")

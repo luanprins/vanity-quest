@@ -6,7 +6,7 @@ class PlayerCharacter():
 
         self.inventory = ["heirloom ring"]
         self.mind = []
-        self.powers = []
+        self.power = []
         self.mind_dict = {
                 "metacy butts":
                 "Metacy likes to stealthily burn the behinds of passersby.",
@@ -20,6 +20,7 @@ class PlayerCharacter():
 
     def show_inventory(self):
         inventory_string = ", ".join(self.inventory)
+        print(f"Fetching from {repr(self.inventory)} in {repr(self)}")
         return print(textwrap.dedent(f"""
                                     Here's the crap you're carrying around:
                                     {inventory_string}"""))
