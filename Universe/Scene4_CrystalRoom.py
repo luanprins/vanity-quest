@@ -11,7 +11,5 @@ class Scene4_CrystalRoom(Scene):
                             lives are playing out. People are being mutilated
                             by giant bears in some, and getting married in
                             others.
-
-
-
                             """))
+        exit()

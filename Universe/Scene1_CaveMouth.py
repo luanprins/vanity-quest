@@ -35,8 +35,7 @@ class Scene1_CaveMouth(Scene):
                                         tremours as the stone doors shift slowly open."""))
                     self.environment.append("door open")
                     # End value return is here. The name of the next scene gets fed back to the engine.
-                    next_scene = Scene2_CaveTunnel(self.player, self.plot_points)
-                    next_scene.enter()
+                    Scene2_CaveTunnel(self.player, self.plot_points).enter()
                 else:
                     print("\nWaste of a good fireball.")
 
@@ -106,8 +105,8 @@ class Scene1_CaveMouth(Scene):
                                 like arteries on the body of a sleeping stone giant."""))
         elif "statue" in self.action:
             print(textwrap.dedent("""
-                                These are detailed sculptures of fat warriors
-                                with pustuled skin."""))
+                                Some detailed sculptures of fat warriors with pustuled skin
+                                stare you down."""))
             # Runs a method that adds straw to your mind if not
             # already there, prints something, and returns.
             return self.find_straw()

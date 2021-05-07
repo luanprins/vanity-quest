@@ -1,7 +1,7 @@
 import textwrap
 
 class PlayerCharacter():
-    
+
     def __init__(self):
 
         self.inventory = ["heirloom ring"]
@@ -20,7 +20,6 @@ class PlayerCharacter():
 
     def show_inventory(self):
         inventory_string = ", ".join(self.inventory)
-        print(f"Fetching from {repr(self.inventory)} in {repr(self)}")
         return print(textwrap.dedent(f"""
                                     Here's the crap you're carrying around:
                                     {inventory_string}"""))
@@ -31,7 +30,7 @@ class PlayerCharacter():
                 print(self.mind_dict.get(i), "\n")
 
     def show_powers(self):
-        power_string = ", ".join(self.powers)
+        power_string = ", ".join(self.power)
         return print(textwrap.dedent(f"""
                                     Here are the powers at your disposal:
                                     {power_string}"""))

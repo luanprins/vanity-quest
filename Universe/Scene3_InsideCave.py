@@ -94,8 +94,7 @@ class Scene3_InsideCave(Scene):
 
                                 You pass through a tunnel to the next room."""))
             self.player.inventory.remove("grapple rope")
-            next_scene = Scene4_CrystalRoom(self.player, self.plot_points)
-            next_scene.enter()
+            Scene4_CrystalRoom(self.player, self.plot_points).enter()
 
     def hook_outcomes(self):
         if "rope" in self.action:
