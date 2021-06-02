@@ -19,7 +19,10 @@ class PlayerCharacter():
                 }
 
     def show_inventory(self):
-        inventory_string = ", ".join(self.inventory)
+        if len(self.inventory) == 1:
+            inventory_string = self.inventory[0]
+        else:
+            inventory_string = ", ".join(self.inventory[:-1]) + " and " + self.inventory[-1]
         return print(textwrap.dedent(f"""
                                     Here's the crap you're carrying around:
                                     {inventory_string}"""))

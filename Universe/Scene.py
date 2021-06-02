@@ -2,14 +2,19 @@ import pickle
 import textwrap
 
 class Scene():
-    # player = PlayerCharacter()
-    plot_points = []
 
     def __init__(self, player, plot_points):
         # Keeps track of how the environment changes in every scene.
         self.environment = []
         self.player = player
         self.plot_points = plot_points
+        self.accepted_inputs = {
+                                "help":self.help_method,
+                                "inventory":self.player.show_inventory,
+                                "save":self.save_game,
+                                "load":self.load_game,
+                                "exit":self.exit_game
+                                }
 
     def enter(self):
         """
@@ -19,27 +24,20 @@ class Scene():
         """
 
         self.action = input("\n> ")
-        if self.action == "environment":
+        if self.action in self.accepted_inputs.keys():
+            self.accepted_inputs.get(self.action)()
             self.enter()
-        elif self.action == "help":
-            self.help_method(self.environment)
-            self.enter()
-        elif self.action == "inventory":
-            self.player.show_inventory()
-            self.enter()
-        elif self.action == "save":
-            self.save_game()
-            self.enter()
-        elif self.action == "load":
-            self = self.load_game()
-            self.enter()
-        elif self.action == "exit":
-            print("\nUntil next time.")
-            exit()
+        # Contrary to what is normally expected, "else pass" actually
+        # serves a purpose here. If it is not present, the "else" in
+        # the child class's conditional branch gets triggered.
         else:
             pass
 
-    def help_method(self, environment):
+    def exit_game(self):
+        print("\nUntil next time.")
+        exit()
+
+    def help_method(self):
         """
         New players use this to familiarise themselves with the game.
         """
@@ -82,8 +80,7 @@ class Scene():
                                     talk – you don't exactly have a silver tongue, but you
                                     may be able to extract the information you need from people
                                     if they're gullible enough to like you."""))
-                # There are a few checks here only to print instructions
-                # for powers that are already unlocked.
+                # Only print instructions for powers that are already unlocked.
                 if "fireball" in self.player.power:
                     print(textwrap.dedent("""
                                         fireball – turn foes or obstacles into piles of dust with
@@ -101,7 +98,6 @@ class Scene():
 
     def save_game(self):
 
-        print(f"Saving with self as {self} and player as {self.player}.")
         save_file = open("savegame.pickle", "wb")
         pickle.dump(self, save_file)
         save_file.close()
@@ -110,6 +106,6 @@ class Scene():
     def load_game(self):
 
         load_file = open("savegame.pickle", "rb")
-        loaded_content = pickle.load(load_file)
+        load_content = pickle.load(load_file)
         load_file.close()
-        return loaded_content
+        return load_content
