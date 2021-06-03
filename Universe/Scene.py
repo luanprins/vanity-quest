@@ -3,9 +3,10 @@ import textwrap
 
 class Scene():
 
-    def __init__(self, player, plot_points):
+    def __init__(self, player, plot_points, fairy):
         # Keeps track of how the environment changes in every scene.
         self.environment = []
+        self.fairy = fairy
         self.player = player
         self.plot_points = plot_points
         self.accepted_inputs = {
@@ -15,6 +16,7 @@ class Scene():
                                 "load":self.load_game,
                                 "exit":self.exit_game
                                 }
+        
 
     def enter(self):
         """
