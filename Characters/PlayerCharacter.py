@@ -3,10 +3,16 @@ import textwrap
 class PlayerCharacter():
 
     def __init__(self):
-
-        self.inventory = ["heirloom ring"]
-        self.mind = []
-        self.power = []
+        # Ways the player can greet an NPC, selected at
+        # random during dialogue.
+        self.greetings = [
+                        "Thanks for the chat.",
+                        "Smell you later.",
+                        "Fare thee well, noble swine-constitution'd fellow.",
+                        ]
+        self.inventory = ["heirloom ring"] # Collectibles used to advance story.
+        self.mind = [] # Mental notes affecting dialogue options and other interactions.
+        self.power = [] # Magical abilities to help you on your journey.
         self.mind_dict = {
                 "metacy butts":
                 "Metacy likes to stealthily burn the behinds of passersby.",

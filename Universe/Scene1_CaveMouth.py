@@ -4,8 +4,9 @@ import textwrap
 
 class Scene1_CaveMouth(Scene):
 
-    def __init__(self, player, plot_points):
-        super().__init__(player, plot_points)
+    def __init__(self, player, plot_points, fairy):
+        super().__init__(player, plot_points, fairy)
+        self.name = "scene1"
         self.extra_accepted_inputs = {
                                         "look":self.look_outcomes,
                                         "interact":self.interact_outcomes,
@@ -95,7 +96,7 @@ class Scene1_CaveMouth(Scene):
                     Their eyes begin to burn in sync with their heads. You fear
                     they may awaken at any moment. The earth teems with tremours
                     as the stone doors shift open and you proceed inside."""))
-        Scene2_CaveTunnel(self.player, self.plot_points).enter()
+        Scene2_CaveTunnel(self.player, self.plot_points, self.fairy).enter()
 
     def look_outcomes(self):
         """
@@ -170,7 +171,8 @@ class Scene1_CaveMouth(Scene):
         # Talking to metacy can get you the fireball
         # which is part of the solution.
         if "fairy" in self.action or "metacy" in self.action:
-            return self.metacy_mouth()
+            return self.fairy.start_dialogue(self.player, self.name)
+            # return self.metacy_mouth()
         elif "straw" in self.action and "straw" in self.player.mind:
             return print(textwrap.dedent("""
                                         Contrary to bumpkin belief, straw doesn't make
@@ -196,127 +198,3 @@ class Scene1_CaveMouth(Scene):
                 self.player.mind.append("straw")
         else:
             print("\nThere is vacuousness where straw once was.")
-
-    def metacy_mouth(self):
-        """
-        The player can listen to some lore here and needs
-        the fireball grant to advance.
-        """
-        print(textwrap.dedent("""
-                                The fairy regards you with glowing ember eyes.
-                                Input the corresponding number for dialogue."""))
-
-        while True:
-
-            print("1. Who are you?")
-
-            if "metacy visible" in self.player.mind:
-                print("\n2. How come only I can see you?")
-            else:
-                print(textwrap.dedent("""
-                                    2. <Option locked – you haven't found out her
-                                    usual appearance.>"""))
-
-            if "metacy butts" in self.player.mind:
-                print(textwrap.dedent("""
-                                    3. You really burn butts when you're invisible?"""))
-            else:
-                print(textwrap.dedent("""
-                                    3. <Option locked – your butt knowledge is not
-                                    sufficient.>"""))
-
-            if "metacy soulmate" in self.player.mind:
-                print(textwrap.dedent("""
-                                    4. You mentioned our souls were split – are we
-                                    soulmates?"""))
-            else:
-                print(textwrap.dedent("""
-                                    4. <Option locked – you don't know the truth
-                                    about your soul.>"""))
-
-            if "fireball" not in self.player.power:
-                print(textwrap.dedent("""
-                                    5. How do I get into the cave?"""))
-            else:
-                print(textwrap.dedent("""
-                                    5. <Option terminated – you've already learned
-                                    the fireball spell.>"""))
-
-            print("""\n6. Thanks for the chat.""")
-
-            # Input to choose from the above list of dialogue options.
-            talk_metacy = input("\n> ")
-
-            if talk_metacy == "1":
-                print(textwrap.dedent("""
-                                    'I am Metacy,' she says. 'I've lived here for generations
-                                    because my energy is that of fiery passion, and here fire is the
-                                    ruling force aside from dreams. Strange: most humans can't see me,
-                                    but you can. How am I supposed to burn your butt without getting
-                                    caught now?' """))
-                self.player.mind.append("metacy visible")
-                self.player.mind.append("metacy butts")
-            elif talk_metacy == "2" and "metacy visible" in self.player.mind:
-                print(textwrap.dedent("""
-                                    'Legends say that if a human can see a fairy their two
-                                    souls were one and the same in a past life. If I can
-                                    help you achieve your purpose I may sever my ties to this
-                                    old hothole. No chance I'm being selfless for my own gain,
-                                    right?' """))
-                self.player.mind.append("metacy soulmate")
-            elif talk_metacy == "3" and "metacy butts" in self.player.mind:
-                print(textwrap.dedent("""
-                                    Metacy says, 'if you'd been bound for centuries to a
-                                    sanitarium of stone, and your corporal needs and
-                                    desires were void, could you come up with a better
-                                    entertainment form than sizzling passing adventurer arse?"""))
-            elif talk_metacy == "4" and "metacy soulmate" in self.player.mind:
-                print(textwrap.dedent("""
-                                    'Of a sort,' she says.
-
-                                    But your gaze doesn't falter – you must know whether your quest
-                                    to avenge the noble Beth is vain or not. If this is your soulmate,
-                                    why on Apeiron are you trying to impress some living woman?
-
-                                    'Who am I fooling,' continues Metacy. 'We are soulmates. There is no
-                                    doubt about it. But humans romanticise things. Being soulmates doesn't
-                                    mean we have to, you know.'
-
-                                    Metacy pauses, a distant look in her eyes.
-
-                                    She clears her throat; '"Soulmates" means our souls are destined to
-                                    merge again in the end. It may be several lifetimes from now. But
-                                    our connection to each other won't fade, and our paths may overlap
-                                    multiple times, in different forms, until then.'
-
-                                    'Besides,' comes her afterthought, 'humans and fairies can't be
-                                    physical, except through magic."""))
-                self.player.mind.append("metacy magic")
-            elif talk_metacy == "5" and "fireball" not in self.player.power:
-                print(textwrap.dedent("""
-                                    'I can't interact with the physical world but I can make
-                                    certain things materialise in the physical world.
-
-                                    'Because you are my soulmate, you can magnify the power of these
-                                    manifestations.
-
-                                    'Because my soul essence is raging hot fervour, I can bestow the
-                                    power to cast a fireball. Close your eyes . . .'
-
-                                    You obey Metacy's command and soon feel a piercing hot flash thunder
-                                    through your skull. It is the worst pain you've experienced, however
-                                    it's over in a matter of seconds.
-
-                                    The air feels fresher when next you draw breath.
-
-                                    'You are here to slay Lullazilla,' says Metacy. 'I have never braved its
-                                    cave, but I know how to open it. The flames atop both flanking spearman
-                                    statues must burn.' """))
-                self.player.power.append("fireball")
-            elif talk_metacy == "6":
-                print("\n'Pleasure,' says Metacy.")
-                return
-            else:
-                print("\nPlease enter only a valid number.")
-
-        return
