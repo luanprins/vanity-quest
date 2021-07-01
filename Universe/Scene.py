@@ -10,13 +10,12 @@ class Scene():
         self.player = player
         self.plot_points = plot_points
         self.accepted_inputs = {
-                                "help":self.help_method,
-                                "inventory":self.player.show_inventory,
-                                "save":self.save_game,
-                                "load":self.load_game,
-                                "exit":self.exit_game
-                                }
-        
+                        "help":self.help_method,
+                        "inventory":self.player.show_inventory,
+                        "save":self.save_game,
+                        "load":self.load_game,
+                        "exit":self.exit_game
+                        }
 
     def enter(self):
         """
@@ -31,7 +30,8 @@ class Scene():
             self.enter()
         # Contrary to what is normally expected, "else pass" actually
         # serves a purpose here. If it is not present, the "else" in
-        # the child class's conditional branch gets triggered.
+        # the child class's if-else branch gets triggered, even though
+        # that starts with a separate if.
         else:
             pass
 
