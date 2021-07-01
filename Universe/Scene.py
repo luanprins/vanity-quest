@@ -1,4 +1,5 @@
 import pickle
+import sys
 import textwrap
 
 class Scene():
@@ -37,7 +38,7 @@ class Scene():
 
     def exit_game(self):
         print("\nUntil next time.")
-        exit()
+        sys.exit()
 
     def help_method(self):
         """
