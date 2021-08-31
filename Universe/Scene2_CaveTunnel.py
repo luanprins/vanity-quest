@@ -43,7 +43,7 @@ class Scene2_CaveTunnel(Scene):
                 print("Not a valid choice.")
                 continue
         
-        Scene3_InsideCave(self.player, self.plot_points).enter()
+        Scene3_InsideCave(self.player, self.plot_points, self.fairy).enter()
 
 # This choice will get your family ring stolen and save
 # the life of a renowned healer. You'll get the
