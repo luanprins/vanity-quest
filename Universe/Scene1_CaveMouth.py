@@ -15,6 +15,15 @@ class Scene1_CaveMouth(Scene):
                                         "fireball":self.fireball_outcomes
                                         }
 
+        self.synonyms = {
+                        "cavern":["cavern", "cave", "grotto", "hollow", "cavity"],
+                        "door":["door", "entrance"],
+                        "ivy":["flower", "plant"],
+                        "mountain":["mountain", "range"],
+                        "statue":["statue", "sculpture"],
+                        "take":["take", "pick up", "pocket"],
+                        }
+
     def enter(self):
         while True:
             super().enter()
@@ -55,8 +64,8 @@ class Scene1_CaveMouth(Scene):
 
         for word in self.ambient_inputs:
             if word in self.action:
-                return print(textwrap.dedent(self.ambient_inputs.get(word)))
-        
+                return print(textwrap.dedent("\n" + self.ambient_inputs.get(word)))
+
         return print("\nTrying to do that works. In your dreams.")
 
     def straw_outcomes(self):
@@ -72,10 +81,13 @@ class Scene1_CaveMouth(Scene):
                                 both bowls atop the statue heads."""))
             self.player.inventory.remove("straw")
             self.environment.append("bowl of straw")
-        elif "fireball" in self.action and "bowl of straw" in self.environment:
+        elif "fireball" in self.action and "bowl of straw" in self.environment \
+            and "fireball" in self.player.power:
             self.end_sequence()
-        else:
+        elif "straw" in self.player.inventory:
             print("\nNo use for the straw there.")
+        else:
+            print("\nYour attempt at action is beyond comprehension.")
 
     def fireball_outcomes(self):
         """
@@ -149,7 +161,7 @@ class Scene1_CaveMouth(Scene):
 
         for word in self.ambient_inputs:
             if word in self.action:
-                return print(textwrap.dedent(self.ambient_inputs.get(word)))
+                return print(textwrap.dedent("\n" + self.ambient_inputs.get(word)))
 
         return print(textwrap.dedent("\nNot much to see."))
 

@@ -1,4 +1,5 @@
 from Universe.Scene import Scene
+import sys
 import textwrap
 
 class Scene4_CrystalRoom(Scene):
@@ -12,4 +13,5 @@ class Scene4_CrystalRoom(Scene):
                             by giant bears in some, and getting married in
                             others.
                             """))
-        exit()
+        print(textwrap.dedent("TO BE CONTINUED . . ."))
+        sys.exit(0)

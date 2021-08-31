@@ -25,7 +25,7 @@ class Scene():
         version, which continues with its own checks on the input.
         """
 
-        self.action = input("\n> ")
+        self.action = input("\n> ").lower()
         if self.action in self.accepted_inputs.keys():
             self.accepted_inputs.get(self.action)()
             self.enter()
