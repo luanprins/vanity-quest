@@ -31,35 +31,39 @@ class Scene3_InsideCave(Scene):
                 print("\nYou're speaking tongues.")
 
     def interact_outcomes(self):
-        if "river" in self.action:
-            print("\nYou didn't bring your swimwear. Or a coffin.")
-        elif "stalagmite" in self.action:
-            print("\nCan't jump all the way.")
-        elif "stalactite" in self.action:
-            print("\nThe Gods didn't bless you with that kind of length.")
+        ambient_inputs = {
+                            "river":"You didn't bring your swimwear. Or a coffin.",
+                            "stalagmite":"Can't jump across the river to get to it.",
+                            "stalactite":"The Gods didn't bless you with that kind of length."
+                            }
+
         # Get rope and spike this way.
-        elif "rope" in self.action and "rope" not in self.player.inventory:
+        if "rope" in self.action and "rope" not in self.player.inventory:
             print("\nGot the rope.")
-            self.player.inventory.append("rope")
-        elif "spike" in self.action:
+            return self.player.inventory.append("rope")
+        elif "spike" in self.action and "spike" not in self.player.inventory:
             print("\nGot the spike.")
-            self.player.inventory.append("spike")
-        # Long boolean so the lava pool on the platform can be referred to as
+            return self.player.inventory.append("spike")
+        # Long boolean statement so the lava pool on the platform can be referred to as
         # 'lava' or as 'pool' but excluding 'lava river' or 'river of lava'.
         elif "pool" in self.action or ("lava" in self.action and "river" not in self.action):
-            print(textwrap.dedent("""
-                                You almost dip your hand in there. Then you realise it's your crazy side doing
+            return print(textwrap.dedent("""
+                                You almost dip your hand in the lava pool. Then you realise it's your crazy side doing
                                 the thinking."""))
         elif "orb" in self.action and "fallen stalactite" not in self.environment:
-            print(textwrap.dedent("""
+            return print(textwrap.dedent("""
                                 You bitch-slap the orb and it boings back to its
-                                original erect position, unperturbed."""))
-        else:
-            print("\nPlease suck less.")
+                                original erect position unperturbed."""))
+
+        for word in ambient_inputs:
+            if word in self.action:
+                return print(textwrap.dedent("\n" + ambient_inputs.get(word)))
+        
+        return print("\nPlease suck less.")
 
     def fireball_outcomes(self):
         if "rope" in self.action:
-                    print("\nSeems impractical to burn a good rope.""")
+                    print("\nSeems impractical to burn a good rope.")
         elif "spike" in self.action:
             print(textwrap.dedent("""
                                 Fireball hits the spike but it doesn't ignite and the magical projectile disperses
