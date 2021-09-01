@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock, Mock
+import textwrap
 
 def assert_no_call(self, *args, **kwargs):
     """
@@ -28,4 +29,4 @@ def test_ambient_inputs(dict_, scene, scene_function, mock_print):
     for word in dict_:
         scene.action = word
         scene_function()
-        mock_print.assert_called_with("\n" + dict_.get(word))
+        mock_print.assert_called_with(textwrap.dedent("\n" + dict_.get(word)))
