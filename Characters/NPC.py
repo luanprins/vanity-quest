@@ -17,15 +17,11 @@ class NPC():
         self.greetings = []
 
     def start_dialogue(self, player, scene_name):
-        greeted = False
+        # Get a random line that opens the dialogue, once per dialogue.
+        print(self.intro_lines[randint(0, len(self.intro_lines) - 1)])
 
         while True:
             dialogue_options = []
-
-            # Get a random line that opens the dialogue, once per dialogue.
-            if greeted == False:
-                print(self.intro_lines[randint(0, len(self.intro_lines) - 1)])
-                greeted = True
 
             # Add default scene-based topics to dialogue options.
             for topic in self.place_dependent_topics[scene_name]:
