@@ -1,8 +1,36 @@
+from Helpers import general_helpers as gh
 from Universe.Scene import Scene
 from Universe.Scene4_CrystalRoom import Scene4_CrystalRoom
 import textwrap
 
 class Scene3_InsideCave(Scene):
+
+    def __init__(self, player, plot_points, fairy):
+        super().__init__(player, plot_points, fairy)
+        self.interact_ambient_inputs = {
+                                        "river":"You didn't bring your swimwear. Or a coffin.",
+                                        "stalagmite":"Can't jump across the river to get to it.",
+                                        "stalactite":"The Gods didn't bless you with that kind of length."
+                                        }
+        self.fireball_ambient_inputs = {
+                                        "rope":"\nSeems impractical to burn a good rope.",
+                                        "spike":"""
+                                                Fireball hits the spike but it doesn't ignite and the magical projectile disperses
+                                                before even heating the steel thoroughly."""
+                                        }
+        self.look_ambient_inputs = {
+                                    "river":"You pray to the gods you don't end up in there.",
+                                    "stalagmite":"Nothing phallic about them whatsoever.",
+                                    "stalactite":"""You had trouble remembering what they're called, until you
+                                                    realised the latter syllable sounded similar to another hanging
+                                                    marvel of nature.""",
+                                    "rope":"Looks like it wouldn't snap if something heavy hung from it.",
+                                    "spike":"""Guess you might stab something to death with it, but
+                                                reassembling the sword and THEN killing in cold blood
+                                                seems far more heroic.""",
+                                    "orb":"""Can't see it but it's probably squashed
+                                    like a bug."""
+                                    }
 
     def enter(self):
 
@@ -31,12 +59,6 @@ class Scene3_InsideCave(Scene):
                 print("\nYou're speaking tongues.")
 
     def interact_outcomes(self):
-        ambient_inputs = {
-                            "river":"You didn't bring your swimwear. Or a coffin.",
-                            "stalagmite":"Can't jump across the river to get to it.",
-                            "stalactite":"The Gods didn't bless you with that kind of length."
-                            }
-
         # Get rope and spike this way.
         if "rope" in self.action and "rope" not in self.player.inventory:
             print("\nGot the rope.")
@@ -55,20 +77,14 @@ class Scene3_InsideCave(Scene):
                                 You bitch-slap the orb and it boings back to its
                                 original erect position unperturbed."""))
 
-        for word in ambient_inputs:
+        for word in self.interact_ambient_inputs:
             if word in self.action:
-                return print(textwrap.dedent("\n" + ambient_inputs.get(word)))
+                return print(textwrap.dedent("\n" + self.interact_ambient_inputs.get(word)))
         
         return print("\nPlease suck less.")
 
     def fireball_outcomes(self):
-        if "rope" in self.action:
-                    print("\nSeems impractical to burn a good rope.")
-        elif "spike" in self.action:
-            print(textwrap.dedent("""
-                                Fireball hits the spike but it doesn't ignite and the magical projectile disperses
-                                before even heating the steel thoroughly."""))
-        elif "orb" in self.action and "fallen stalactite" not in self.environment:
+        if "orb" in self.action and "fallen stalactite" not in self.environment:
             # Here you drop the stalactite on your side.
             print(textwrap.dedent("""
                                 The orb promptly recedes into the narrow crevice it stuck out from. Then
@@ -80,13 +96,17 @@ class Scene3_InsideCave(Scene):
                                 which roots itself upright in the soft plot of ground underneath it, just by the
                                 edge separating the platform from a long drop into the river of lava below."""))
             self.environment.append("fallen stalactite")
-            print(textwrap.dedent("""
-                                'You saved my life,' you murmur.
+            return print(textwrap.dedent("""
+                                        'You saved my life,' you murmur.
 
-                                'So did you mine, in some past life,' says Metacy. She seems ponderous for a moment
-                                before adding, 'Probably.' """))
-        else:
-            print("\nIt's hot enough already.")
+                                        'So did you mine, in some past life,' says Metacy. She seems ponderous for a moment
+                                        before adding, 'Probably.' """))
+
+        for word in self.fireball_ambient_inputs:
+            if word in self.action:
+                return print(textwrap.dedent("\n" + self.fireball_ambient_inputs.get(word)))
+
+        return print("\nNothing happens.")
 
     def grapple_outcomes(self):
         if ("stalagmite" in self.action or "stalactite" in self.action) and "fallen stalactite" in self.environment:
@@ -105,6 +125,8 @@ class Scene3_InsideCave(Scene):
             print("\nYou attach the rope to the hook, tying it tightly. Good as makeshift grapple ropes come!""")
             self.player.inventory.remove("hook")
             self.player.inventory.append("grapple rope")
+            # They don't have to have picked up the rope
+            # to use the hook on it.
             if "rope" in self.player.inventory:
                 self.player.inventory.remove("rope")
         else:
@@ -133,28 +155,18 @@ class Scene3_InsideCave(Scene):
                                 A strange blue orb protrudes from the ground in the centre
                                 of this clearing.
                                 """))
-            self.player.mind.append("orb")
+            return self.player.mind.append("orb")
         # Rest of the looks serve no functional purpose for this scene.
-        elif "river" in self.action:
-            print("\nYou pray to the gods you don't end up in there.")
-        elif "stalagmite" in self.action:
-            print("\nNothing phallic about them whatsoever.")
-        elif "stalactite" in self.action:
-            print(textwrap.dedent("""
-                                You had trouble remembering what they're called, until you
-                                realised the latter syllable sounded similar to another hanging
-                                marvel of nature."""))
-        elif "rope" in self.action:
-            print("\nLooks like it wouldn't snap if something heavy hung from it.")
-        elif "spike" in self.action:
-            print(textwrap.dedent("""
-                                Guess you might stab something to death with it, but
-                                reassembling the sword and THEN killing in cold blood
-                                seems far more heroic."""))
         elif "pool" in self.action or ("lava" in self.action and "river" not in self.action):
-            print("\nYou don't want to touch it – would probably deform your very bones.")
+            return print("\nYou don't want to touch it – would probably deform your very bones.")
         elif "orb" in self.action and "fallen stalactite" not in self.environment:
-            print("\nYou don't want to know, but something tells you you don't have a choice.")
+            return print("\nYou don't want to know, but something tells you you don't have a choice.")
+
+        for word in self.look_ambient_inputs:
+            if word in self.action:
+                return print(textwrap.dedent("\n" + self.look_ambient_inputs.get(word)))
+        
+        return print("\nWhat are you looking at?")
 
     def spike_outcomes(self):
         """
