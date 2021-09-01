@@ -17,3 +17,16 @@ def assert_no_call(self, *args, **kwargs):
 # of any mock object created during testing.
 Mock.assert_no_call = assert_no_call
 MagicMock.assert_no_call = assert_no_call
+
+def test_ambient_inputs(dict_, scene, function, mock_print):
+    """
+    Some inputs in scenes have outcomes that simply
+    print a message fetched from a dictionary.
+    This function takes those elements as arguments
+    and tests that the expected message was
+    printed.
+    """
+    for word in dict_:
+        scene.action = word
+        function()
+        mock_print.assert_called_with("\n" + dict_.get(word))

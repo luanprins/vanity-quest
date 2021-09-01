@@ -3,6 +3,7 @@ from Universe.Scene2_CaveTunnel import Scene2_CaveTunnel
 from Characters.PlayerCharacter import PlayerCharacter
 from Characters.Metacy import Metacy
 from tests.vanity_test_tools import Mock, MagicMock
+from tests import vanity_test_tools as vtt
 from unittest.mock import patch
 import textwrap
 import unittest
@@ -77,11 +78,8 @@ class TestScene1(unittest.TestCase):
                                     it, and you're a munchkin compared to them."""
                                 }
 
-        for key in action_values:
-            self.scene1.action = key
-            self.scene1.interact_outcomes()
-            mock_print.assert_called_with("\n" + action_values.get(key))
-        
+        vtt.test_ambient_inputs(action_values, self.scene1, self.scene1.interact_outcomes, mock_print)
+
         self.scene1.action = "dud input"
         self.scene1.interact_outcomes()
         mock_print.assert_called_with("\nTrying to do that works. In your dreams.")
@@ -193,10 +191,7 @@ class TestScene1(unittest.TestCase):
                                 "fairy":"\nShe nonchanalantly hovers about."
                                 }
 
-        for key in action_values:
-            self.scene1.action = key
-            self.scene1.look_outcomes()
-            mock_print.assert_called_with(textwrap.dedent("\n" + action_values.get(key)))
+        vtt.test_ambient_inputs(action_values, self.scene1, self.scene1.look_outcomes, mock_print)
         
         self.scene1.action = "dud input"
         self.scene1.look_outcomes()
@@ -229,10 +224,7 @@ class TestScene1(unittest.TestCase):
                                             skin crawl."""
                                 }
 
-        for key in action_values:
-            self.scene1.action = key
-            self.scene1.talk_outcomes()
-            mock_print.assert_called_with(textwrap.dedent("\n" + action_values.get(key)))
+        vtt.test_ambient_inputs(action_values, self.scene1, self.scene1.talk_outcomes, mock_print)
 
         self.scene1.action = "dud input"
         self.scene1.talk_outcomes()
