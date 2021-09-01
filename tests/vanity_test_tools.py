@@ -1,12 +1,11 @@
 from unittest.mock import MagicMock, Mock
 
-# Adapted from: https://stackoverflow.com/questions/54838354/python-how-can-i-assert-a-mock-object-was-not-called-with-specific-arguments
-
 def assert_no_call(self, *args, **kwargs):
     """
     Use this function to assert that a mock object was not called with
     the arguments specified.
     """
+    # Adapted from: https://stackoverflow.com/questions/54838354/python-how-can-i-assert-a-mock-object-was-not-called-with-specific-arguments
     try:
         self.assert_any_call(*args, **kwargs)
     except AssertionError:
