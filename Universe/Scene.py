@@ -14,7 +14,6 @@ class Scene():
                         "help":self.help_method,
                         "inventory":self.player.show_inventory,
                         "save":self.save_game,
-                        "load":self.load_game,
                         "exit":self.exit_game
                         }
 
@@ -33,6 +32,9 @@ class Scene():
         # serves a purpose here. If it is not present, the "else" in
         # the child class's if-else branch gets triggered, even though
         # that starts with a separate if.
+        elif self.action == "load":
+            self = self.load_game()
+            self.enter()
         else:
             pass
 
