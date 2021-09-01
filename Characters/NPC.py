@@ -21,11 +21,8 @@ class NPC():
         print(self.intro_lines[randint(0, len(self.intro_lines) - 1)])
 
         while True:
-            dialogue_options = []
-
-            # Add default scene-based topics to dialogue options.
-            for topic in self.place_dependent_topics[scene_name]:
-                dialogue_options.append(topic)
+            # Set dialogue_options as default scene_based topics
+            dialogue_options = [topic for topic in self.place_dependent_topics[scene_name]]
 
             # Add topics that depend on what the player has learned.
             for topic in self.player_dependent_topics[scene_name]:
