@@ -1,6 +1,6 @@
 ﻿VANITY QUEST README
 
-PYTHON VERSION USED
+LAST PYTHON VERSION USED
 3.9.6
 
 DEPENDENCIES
@@ -13,36 +13,29 @@ the builtin exit/quit functions are designed for interpreter sessions)
 - textwrap (for dedenting long strings)
 - unittest
 
-Instructions:
-Vanity Quest is built up to the third chapter of the storyline and tested up to the first.
-Contributions are welcomed, whether you want to add to the story or contribute
-code (or both, as they go hand-in-hand for this project). The guidelines are
-only to use common sense and follow PEP 8 as far as it makes sense to you to do
-so. Also see the "TESTING" section.
-
-An executable is expected to be compiled for Windows devices as I have yet to achieve
-compiling for Mac on a Windows machine using Pyinstaller.
+ABOUT
+Vanity Quest is built up to the third chapter of the storyline and tested up to the first. 
+The executable version in the folder named dist is compiled for Windows, though
+I've only tested it on one machine.
 
 The project is fit to run from source code using the Python interpreter. The steps
 are:
 
-1) Get the appropriate version of Python at python.org.
-2) Clone this repo.
-3) From the terminal, navigate inside the project folder.
-4) Run the main.py file. The command is `python main.py` for Windows and
-`python3 main.py` for Mac/Linux.
+1) Clone this repo.
+2) Run main.py using the Python interpreter.
+3) If there are errors, check that it doesn't have to do with a mismatch for the last
+Python version used to develop this project (see "LAST PYTHON VERSION USED"). I'd be
+interested to see reports of any other errors.
 
-Save games are created using the pickle module from the Python standard library.
-Because the creative process is intertwined with determining the logic, and the
-scope of the project is small, strings are stored in the scripts themselves, indented
-and formatted for output using the textwrap module.
+Game saves are created using the pickle module from the Python standard library.
 
 TESTING
 
 To run the unit tests, be sure to navigate to the root directory. From there, use
 the command `python -m unittest tests/test_everything.py` (for Windows) or
 `python3 -m unittest tests/test_everything.py` (for Mac/Linux). To run an individual
-unit test, replace the asterisk in that command with the chosen script.
+unit test, replace the "test_everything.py" with the chosen test script in the
+above command.
 
 Here's a unit testing checklist to use:
 1) Objects are initialized with the expected values and attributes.
@@ -51,7 +44,7 @@ Here's a unit testing checklist to use:
 were called using their assert_called_once method).
 3) If a function mutates a variable, the variable is tested for a new value
 using assertEqual.
-4) If a function's behaviour is conditional, make sure that does what is expected
+4) If a function's behaviour is conditional, make sure that it does what is expected
 under every condition.
 5) If a function results in another function call, that call should be made a mock,
 and its function should be tested individually.
